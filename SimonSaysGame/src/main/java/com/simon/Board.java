@@ -15,7 +15,7 @@ import javax.swing.Timer;
 
 public class Board extends JPanel implements ActionListener {
 
-    private final int B_WIDTH = 1200;
+    private final int B_WIDTH = 1400;
     private final int B_HEIGHT = 1200;
 
     private final int DELAY = 140;
@@ -45,6 +45,9 @@ public class Board extends JPanel implements ActionListener {
     private int lightRed_x;
     private int lightRed_y;
 
+    private int instructions_x;
+    private int instructions_y;
+
 
     private boolean leftDirection = false;
     private boolean rightDirection = true;
@@ -62,6 +65,7 @@ public class Board extends JPanel implements ActionListener {
     private Image lightBlue;
     private Image lightRed;
     private Image lightGreen;
+    private Image instruct;
 
     public Board() {
 
@@ -104,6 +108,9 @@ public class Board extends JPanel implements ActionListener {
 
         ImageIcon lb = new ImageIcon("src/main/resources/blueLighted.png");
         lightBlue = lb.getImage();
+
+        ImageIcon im = new ImageIcon("src/main/resources/instructions.png");
+        instruct = im.getImage();
     }
 
     private void initGame() {
@@ -139,6 +146,9 @@ public class Board extends JPanel implements ActionListener {
 
         lightRed_x=600;
         lightRed_y=200;
+
+        instructions_x=900;
+        instructions_y=0;
     }
 
 
@@ -158,6 +168,7 @@ public class Board extends JPanel implements ActionListener {
             g.drawImage(yellow,  simonYellow_x,  simonYellow_y, this);
             g.drawImage(blue,  simonBlue_x,  simonBlue_y, this);
             g.drawImage(red,  simonRed_x,  simonRed_y, this);
+            g.drawImage(instruct,  instructions_x,  instructions_y, this);
 
             move(g);
             
