@@ -118,16 +118,27 @@ public class Board extends JPanel implements ActionListener {
         simonGreen_x = 350;
         simonGreen_y = 200;
 
-       simonYellow_x=350;
-       simonYellow_y=450;
+        simonYellow_x=350;
+        simonYellow_y=450;
 
         simonBlue_x=600;
-         simonBlue_y=450;
+        simonBlue_y=450;
 
         simonRed_x=600;
         simonRed_y=200;
+        
+        //=====Selected/Lighted================
+        lightGreen_x = 350;
+        lightGreen_y = 200;
 
+        lightYellow_x=350;
+        lightYellow_y=450;
 
+        lightBlue_x=600;
+        lightBlue_y=450;
+
+        lightRed_x=600;
+        lightRed_y=200;
     }
 
 
@@ -148,13 +159,13 @@ public class Board extends JPanel implements ActionListener {
             g.drawImage(blue,  simonBlue_x,  simonBlue_y, this);
             g.drawImage(red,  simonRed_x,  simonRed_y, this);
 
-
-
+            move(g);
+            
 //            Toolkit.getDefaultToolkit().sync();
 
         } else {
-
-            gameOver(g);
+        	
+           // gameOver(g);
         }
     }
 
@@ -205,8 +216,7 @@ public class Board extends JPanel implements ActionListener {
 
         if (inGame) {
 
-
-
+        	
 
         }
 
@@ -220,29 +230,32 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-            if ((key == KeyEvent.VK_LEFT) && (!rightDirection)) {
+            if (key == KeyEvent.VK_LEFT) {
                 leftDirection = true;
                 upDirection = false;
                 downDirection = false;
-
+                rightDirection = false;
             }
 
-            if ((key == KeyEvent.VK_RIGHT) && (!leftDirection)) {
+            if (key == KeyEvent.VK_RIGHT)  {
                 rightDirection = true;
                 upDirection = false;
                 downDirection = false;
+                leftDirection = false;
             }
 
-            if ((key == KeyEvent.VK_UP) && (!downDirection)) {
+            if (key == KeyEvent.VK_UP) {
                 upDirection = true;
                 rightDirection = false;
                 leftDirection = false;
+                downDirection = false;
             }
 
-            if ((key == KeyEvent.VK_DOWN) && (!upDirection)) {
+            if (key == KeyEvent.VK_DOWN)  {
                 downDirection = true;
                 rightDirection = false;
                 leftDirection = false;
+                upDirection = false;
             }
         }
     }
