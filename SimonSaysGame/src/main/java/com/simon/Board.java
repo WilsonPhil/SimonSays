@@ -196,19 +196,23 @@ public class Board extends JPanel implements ActionListener {
 
             if (leftDirection) {
                 g.drawImage(lightGreen,  lightGreen_x,  lightGreen_y, this);
+                leftDirection=false;
 
             }
 
             if (rightDirection) {
                 g.drawImage(lightRed,  lightRed_x,  lightRed_y, this);
+                rightDirection=false;
             }
 
             if (upDirection) {
                 g.drawImage(lightBlue,  lightBlue_x,  lightBlue_y, this);
+                upDirection=false;
             }
 
             if (downDirection) {
                 g.drawImage(lightPurple,  lightPurple_x,  lightPurple_y, this);
+                downDirection=false;
             }
 
 
@@ -249,6 +253,7 @@ public class Board extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
 
             int key = e.getKeyCode();
+
 
             if (key == KeyEvent.VK_LEFT) {
                 leftDirection = true;
