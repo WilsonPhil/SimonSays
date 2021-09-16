@@ -54,7 +54,7 @@ public class Board extends JPanel implements ActionListener {
 
 
     private boolean leftDirection = false;
-    private boolean rightDirection = true;
+    private boolean rightDirection = false;
     private boolean upDirection = false;
     private boolean downDirection = false;
     private boolean inGame = true;
@@ -174,19 +174,19 @@ public class Board extends JPanel implements ActionListener {
     	for (int i : list) {
     		switch (i) {
     		case 0:
-    			leftDirection = true;
+
     			colorChange(g);
     			break;
     		case 1:
-    			rightDirection = true;
+
     			colorChange(g);
     			break;
     		case 2:
-    			downDirection = true;
+
     			colorChange(g);
     			break;
     		case 3:
-    			upDirection = true;
+
     			colorChange(g);
     			break;
     		default:
@@ -210,8 +210,9 @@ public class Board extends JPanel implements ActionListener {
         if (inGame) {
 
             origColor(g);
-            playSequence(gameList,g);
             colorChange(g);
+            playSequence(gameList,g);
+
 
 //            Toolkit.getDefaultToolkit().sync();
 
@@ -262,7 +263,7 @@ public class Board extends JPanel implements ActionListener {
 
 
 
-//            Toolkit.getDefaultToolkit().sync();
+
 
         }
 
@@ -286,7 +287,7 @@ public class Board extends JPanel implements ActionListener {
 
         if (inGame) {
 
-        
+
 
         }
 
