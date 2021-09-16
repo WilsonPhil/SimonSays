@@ -75,6 +75,7 @@ public class Board extends JPanel implements ActionListener {
     
     ArrayList<Integer> gameList = new ArrayList<Integer> ();
     ArrayList<Integer> playerList = new ArrayList<Integer> ();
+    int[] arr = {1,2,3,0,0,1,2};
 
     public Board() {
 
@@ -173,9 +174,10 @@ public class Board extends JPanel implements ActionListener {
     
     private void playSequence(ArrayList<Integer> list) {
     	// 0 = green, 1 = red, 2 = purple, 3 = blue
-    	int[] arr = {1,2,3,0,0,1,2};
-    	for (int i : arr) {
+    	//int[] arr = {1,2,3,0,0,1,2};
+    	for (int i : list) {
     		 autoChange(i);
+    		 
     	}
     }
 
@@ -195,12 +197,11 @@ public class Board extends JPanel implements ActionListener {
             colorChange(g);
             
 
-
 //            Toolkit.getDefaultToolkit().sync();
 
         } else {
         	
-           // gameOver(g);
+           gameOver(g);
         }
     }
 
@@ -215,7 +216,6 @@ public class Board extends JPanel implements ActionListener {
 
     private void autoChange(int num) {
     	// 0 = green, 1 = red, 2 = purple, 3 = blue
-    	timer = new Timer(DELAY, this);
     	switch (num) {
 		case 0:
 			leftDirection=true;		
@@ -223,17 +223,14 @@ public class Board extends JPanel implements ActionListener {
 			break;
 		case 1:
 			rightDirection=true;
-			
 			System.out.println(num);
 			break;
 		case 2:
 			downDirection=true;
-			
 			System.out.println(num);
 			break;
 		case 3:
 			upDirection=true;
-			
 			System.out.println(num);
 			break;
 		default:
@@ -269,6 +266,27 @@ public class Board extends JPanel implements ActionListener {
         }
 
     }
+    
+    private void checkLists(ArrayList<Integer> gList, ArrayList<Integer> pList) {
+    	if (!pList.isEmpty()) {
+    		int count = 0;
+    		
+//    		while (gList.size() > pList.size()) {
+//    			
+//    		
+//	    		if (gList.get(count) != pList.get(count)) {
+//		    		inGame = false;
+//	    		
+//	    			count++;
+//	    		}
+//    		}
+//	    	for (int i = 0; i < gList.size(); i++) {
+//	    		if (gList.get(i) != pList.get(i)) {
+//	    			inGame = false;
+//	    		}
+//	    	}
+    	}
+    }
 
     private void gameOver(Graphics g) {
 
@@ -291,6 +309,7 @@ public class Board extends JPanel implements ActionListener {
         		playSequence(gameList);
         		runOnce = false;
         	}
+        	//checkLists(gameList,playerList);
 
         }
 
@@ -304,12 +323,12 @@ public class Board extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-
             if (key == KeyEvent.VK_LEFT) {
                 leftDirection = true;
                 upDirection = false;
                 downDirection = false;
                 rightDirection = false;
+                playerList.add(0);
             }
 
             if (key == KeyEvent.VK_RIGHT)  {
@@ -317,6 +336,7 @@ public class Board extends JPanel implements ActionListener {
                 upDirection = false;
                 downDirection = false;
                 leftDirection = false;
+                playerList.add(1);
             }
 
             if (key == KeyEvent.VK_UP) {
@@ -324,6 +344,7 @@ public class Board extends JPanel implements ActionListener {
                 rightDirection = false;
                 leftDirection = false;
                 downDirection = false;
+                playerList.add(3);
             }
 
             if (key == KeyEvent.VK_DOWN)  {
@@ -331,6 +352,7 @@ public class Board extends JPanel implements ActionListener {
                 rightDirection = false;
                 leftDirection = false;
                 upDirection = false;
+                playerList.add(2);
             }
         }
     }
