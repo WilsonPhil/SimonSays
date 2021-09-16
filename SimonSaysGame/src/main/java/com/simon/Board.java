@@ -22,7 +22,7 @@ public class Board extends JPanel implements ActionListener {
     private final int B_WIDTH = 1400;
     private final int B_HEIGHT = 1200;
 
-    private final int DELAY = 500;
+    private final int DELAY = 150;
 
     private int simonGreen_x;
     private int simonGreen_y;
@@ -71,6 +71,8 @@ public class Board extends JPanel implements ActionListener {
     private Image lightGreen;
     private Image instruct;
     
+    private boolean runOnce = true;
+    
     ArrayList<Integer> gameList = new ArrayList<Integer> ();
     ArrayList<Integer> playerList = new ArrayList<Integer> ();
 
@@ -87,6 +89,7 @@ public class Board extends JPanel implements ActionListener {
 
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         loadImages();
+        startSequence(gameList);
         initGame();
     }
 
@@ -123,7 +126,6 @@ public class Board extends JPanel implements ActionListener {
     private void initGame() {
 
         initColor();
-        startSequence(gameList);
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -169,30 +171,11 @@ public class Board extends JPanel implements ActionListener {
 	    }
     }
     
-    private void playSequence(ArrayList<Integer> list, Graphics g) {
+    private void playSequence(ArrayList<Integer> list) {
     	// 0 = green, 1 = red, 2 = purple, 3 = blue
-    	for (int i : list) {
-    		switch (i) {
-    		case 0:
-
-    			colorChange(g);
-    			break;
-    		case 1:
-
-    			colorChange(g);
-    			break;
-    		case 2:
-
-    			colorChange(g);
-    			break;
-    		case 3:
-
-    			colorChange(g);
-    			break;
-    		default:
-    			System.out.println("broken");
-    			break;
-    		} 
+    	int[] arr = {1,2,3,0,0,1,2};
+    	for (int i : arr) {
+    		 autoChange(i);
     	}
     }
 
@@ -206,12 +189,11 @@ public class Board extends JPanel implements ActionListener {
     }
 
     private void doDrawing(Graphics g) {
-
         if (inGame) {
-
+        	
             origColor(g);
             colorChange(g);
-            playSequence(gameList,g);
+            
 
 
 //            Toolkit.getDefaultToolkit().sync();
@@ -231,19 +213,42 @@ public class Board extends JPanel implements ActionListener {
 
     }
 
-
+    private void autoChange(int num) {
+    	// 0 = green, 1 = red, 2 = purple, 3 = blue
+    	timer = new Timer(DELAY, this);
+    	switch (num) {
+		case 0:
+			leftDirection=true;		
+			System.out.println(num);
+			break;
+		case 1:
+			rightDirection=true;
+			
+			System.out.println(num);
+			break;
+		case 2:
+			downDirection=true;
+			
+			System.out.println(num);
+			break;
+		case 3:
+			upDirection=true;
+			
+			System.out.println(num);
+			break;
+		default:
+			System.out.println("broken");
+			break;
+		}
+    }
 
     private void colorChange(Graphics g) {
 
-
-
         if (inGame) {
-
 
             if (leftDirection) {
                 g.drawImage(lightGreen,  lightGreen_x,  lightGreen_y, this);
                 leftDirection=false;
-
             }
 
             if (rightDirection) {
@@ -261,12 +266,7 @@ public class Board extends JPanel implements ActionListener {
                 downDirection=false;
             }
 
-
-
-
-
         }
-
 
     }
 
@@ -286,8 +286,11 @@ public class Board extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) {
-
-
+        	
+        	if (runOnce) {
+        		playSequence(gameList);
+        		runOnce = false;
+        	}
 
         }
 
