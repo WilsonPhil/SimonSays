@@ -13,18 +13,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+
 public class Board extends JPanel implements ActionListener {
 
     private final int B_WIDTH = 1400;
     private final int B_HEIGHT = 1200;
 
-    private final int DELAY = 140;
+    private final int DELAY = 500;
 
     private int simonGreen_x;
     private int simonGreen_y;
 
-    private int simonYellow_x;
-    private int simonYellow_y;
+    private int simonPurple_x;
+    private int simonPurple_y;
 
     private int simonBlue_x;
     private int simonBlue_y;
@@ -36,8 +37,8 @@ public class Board extends JPanel implements ActionListener {
     private int lightGreen_x;
     private int lightGreen_y;
 
-    private int lightYellow_x;
-    private int lightYellow_y;
+    private int lightPurple_x;
+    private int lightPurple_y;
 
     private int lightBlue_x;
     private int lightBlue_y;
@@ -56,12 +57,12 @@ public class Board extends JPanel implements ActionListener {
     private boolean inGame = true;
 
     private Timer timer;
-    private Image yellow;
+    private Image purple;
     private Image blue;
     private Image red;
     private Image green;
 
-    private Image lightYellow;
+    private Image lightPurple;
     private Image lightBlue;
     private Image lightRed;
     private Image lightGreen;
@@ -91,8 +92,8 @@ public class Board extends JPanel implements ActionListener {
         ImageIcon g = new ImageIcon("src/main/resources/SimonGreen.png");
         green= g.getImage();
 
-        ImageIcon y = new ImageIcon("src/main/resources/SimonYellow.png");
-        yellow = y.getImage();
+        ImageIcon y = new ImageIcon("src/main/resources/SimonPurple.png");
+        purple = y.getImage();
 
         ImageIcon b = new ImageIcon("src/main/resources/SimonBlue.png");
         blue = b.getImage();
@@ -103,8 +104,8 @@ public class Board extends JPanel implements ActionListener {
         ImageIcon lg = new ImageIcon("src/main/resources/greenLighted.png");
         lightGreen= lg.getImage();
 
-        ImageIcon ly = new ImageIcon("src/main/resources/yellowLighted.png");
-        lightYellow = ly.getImage();
+        ImageIcon ly = new ImageIcon("src/main/resources/purpleLighted.png");
+        lightPurple = ly.getImage();
 
         ImageIcon lb = new ImageIcon("src/main/resources/blueLighted.png");
         lightBlue = lb.getImage();
@@ -125,8 +126,8 @@ public class Board extends JPanel implements ActionListener {
         simonGreen_x = 350;
         simonGreen_y = 200;
 
-        simonYellow_x=350;
-        simonYellow_y=450;
+        simonPurple_x=350;
+        simonPurple_y=450;
 
         simonBlue_x=600;
         simonBlue_y=450;
@@ -138,8 +139,8 @@ public class Board extends JPanel implements ActionListener {
         lightGreen_x = 350;
         lightGreen_y = 200;
 
-        lightYellow_x=350;
-        lightYellow_y=450;
+        lightPurple_x=350;
+        lightPurple_y=450;
 
         lightBlue_x=600;
         lightBlue_y=450;
@@ -164,14 +165,9 @@ public class Board extends JPanel implements ActionListener {
 
         if (inGame) {
 
-            g.drawImage(green,  simonGreen_x,  simonGreen_y, this);
-            g.drawImage(yellow,  simonYellow_x,  simonYellow_y, this);
-            g.drawImage(blue,  simonBlue_x,  simonBlue_y, this);
-            g.drawImage(red,  simonRed_x,  simonRed_y, this);
-            g.drawImage(instruct,  instructions_x,  instructions_y, this);
+            origColor(g);
+            colorChange(g);
 
-            move(g);
-            
 //            Toolkit.getDefaultToolkit().sync();
 
         } else {
@@ -180,14 +176,27 @@ public class Board extends JPanel implements ActionListener {
         }
     }
 
+    private void origColor(Graphics g){
+        g.drawImage(green,  simonGreen_x,  simonGreen_y, this);
+        g.drawImage(purple,  simonPurple_x,  simonPurple_y, this);
+        g.drawImage(blue,  simonBlue_x,  simonBlue_y, this);
+        g.drawImage(red,  simonRed_x,  simonRed_y, this);
+        g.drawImage(instruct,  instructions_x,  instructions_y, this);
 
-    private void move(Graphics g) {
+    }
+
+
+
+    private void colorChange(Graphics g) {
+
+
 
         if (inGame) {
 
 
             if (leftDirection) {
                 g.drawImage(lightGreen,  lightGreen_x,  lightGreen_y, this);
+
             }
 
             if (rightDirection) {
@@ -199,7 +208,7 @@ public class Board extends JPanel implements ActionListener {
             }
 
             if (downDirection) {
-                g.drawImage(lightYellow,  lightYellow_x,  lightYellow_y, this);
+                g.drawImage(lightPurple,  lightPurple_x,  lightPurple_y, this);
             }
 
 
