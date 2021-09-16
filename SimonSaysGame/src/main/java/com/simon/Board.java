@@ -13,6 +13,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Board extends JPanel implements ActionListener {
 
@@ -67,6 +70,9 @@ public class Board extends JPanel implements ActionListener {
     private Image lightRed;
     private Image lightGreen;
     private Image instruct;
+    
+    ArrayList<Integer> gameList = new ArrayList<Integer> ();
+    ArrayList<Integer> playerList = new ArrayList<Integer> ();
 
     public Board() {
 
@@ -117,6 +123,7 @@ public class Board extends JPanel implements ActionListener {
     private void initGame() {
 
         initColor();
+        startSequence(gameList);
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -151,6 +158,43 @@ public class Board extends JPanel implements ActionListener {
         instructions_x=900;
         instructions_y=0;
     }
+    
+    //create sequence to challenge user
+    private void startSequence (ArrayList<Integer> list) {
+    
+    	//this creates 7 numbers btwn 0-3 and put's it into the list
+	    for(int i = 0; i < 7; i++) {
+	    	Double rand = Math.random() * 4;
+	    	list.add(rand.intValue());   	
+	    }
+    }
+    
+    private void playSequence(ArrayList<Integer> list, Graphics g) {
+    	// 0 = green, 1 = red, 2 = purple, 3 = blue
+    	for (int i : list) {
+    		switch (i) {
+    		case 0:
+    			leftDirection = true;
+    			colorChange(g);
+    			break;
+    		case 1:
+    			rightDirection = true;
+    			colorChange(g);
+    			break;
+    		case 2:
+    			downDirection = true;
+    			colorChange(g);
+    			break;
+    		case 3:
+    			upDirection = true;
+    			colorChange(g);
+    			break;
+    		default:
+    			System.out.println("broken");
+    			break;
+    		} 
+    	}
+    }
 
 
 
@@ -166,6 +210,7 @@ public class Board extends JPanel implements ActionListener {
         if (inGame) {
 
             origColor(g);
+            playSequence(gameList,g);
             colorChange(g);
 
 //            Toolkit.getDefaultToolkit().sync();
@@ -229,7 +274,8 @@ public class Board extends JPanel implements ActionListener {
         String msg = "Game Over";
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics metr = getFontMetrics(small);
-
+        
+        setBackground(Color.black);
         g.setColor(Color.white);
         g.setFont(small);
         g.drawString(msg, (B_WIDTH - metr.stringWidth(msg)) / 2, B_HEIGHT / 2);
@@ -240,7 +286,7 @@ public class Board extends JPanel implements ActionListener {
 
         if (inGame) {
 
-        	
+        
 
         }
 
