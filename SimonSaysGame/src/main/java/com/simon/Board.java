@@ -18,8 +18,10 @@ import java.util.ArrayList;
 
 public class Board extends JPanel implements ActionListener {
 
-    private final int B_WIDTH = 1400;
-    private final int B_HEIGHT = 1200;
+    private final int B_WIDTH = 1300;
+    private final int B_HEIGHT = 700;
+
+
 
     private final int DELAY = 150;
 
@@ -314,7 +316,7 @@ public class Board extends JPanel implements ActionListener {
     private void gameOver(Graphics g) {
 
         String msg = "Game Over";
-        Font small = new Font("Helvetica", Font.BOLD, 14);
+        Font small = new Font("Helvetica", Font.BOLD, 30);
         FontMetrics metr = getFontMetrics(small);
         
         setBackground(Color.black);
