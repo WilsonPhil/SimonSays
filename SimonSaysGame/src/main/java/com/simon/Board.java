@@ -82,7 +82,7 @@ public class Board extends JPanel implements ActionListener {
     
     // 0 = green, 1 = red, 2 = purple, 3 = blue
     ArrayList<Integer> gameList = new ArrayList<Integer> ();
-    ArrayList<Integer> playerList = new ArrayList<Integer> ();
+
     
 
     public Board() {
@@ -98,7 +98,7 @@ public class Board extends JPanel implements ActionListener {
 
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         loadImages();
-        //startSequence(gameList);
+
         
         
         initGame();
@@ -174,17 +174,6 @@ public class Board extends JPanel implements ActionListener {
         instructions_x=900;
         instructions_y=0;
     }
-    
-    //create sequence to challenge user
-    private void startSequence (ArrayList<Integer> list) {
-    
-    	//this creates 7 numbers btwn 0-3 and put's it into the list
-	    for(int i = 0; i < 7; i++) {
-	    	Double rand = Math.random() * 4;
-	    	list.add(rand.intValue());   	
-	    }
-    }
-    
 
     @Override
     public void paintComponent(Graphics g) {
@@ -364,7 +353,7 @@ public class Board extends JPanel implements ActionListener {
         		countDown = 1;
         	}
         	
-        	//checkLists(gameList,playerList);
+
 
         }
 
@@ -384,7 +373,7 @@ public class Board extends JPanel implements ActionListener {
 	                upDirection = false;
 	                downDirection = false;
 	                rightDirection = false;
-	                //playerList.add(0);
+
 	                seconds = 1;
 	            }
 	
@@ -393,7 +382,7 @@ public class Board extends JPanel implements ActionListener {
 	                upDirection = false;
 	                downDirection = false;
 	                leftDirection = false;
-	                //playerList.add(1);
+
 	                seconds = 1;
 	            }
 	
@@ -402,7 +391,7 @@ public class Board extends JPanel implements ActionListener {
 	                rightDirection = false;
 	                leftDirection = false;
 	                downDirection = false;
-	                //playerList.add(3);
+
 	                seconds = 1;
 	            }
 	
@@ -411,7 +400,7 @@ public class Board extends JPanel implements ActionListener {
 	                rightDirection = false;
 	                leftDirection = false;
 	                upDirection = false;
-	                //playerList.add(2);
+
 	                seconds = 1;
 	            }
 	            
