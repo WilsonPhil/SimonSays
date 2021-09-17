@@ -187,11 +187,25 @@ public class Board extends JPanel implements ActionListener {
         	
             origColor(g);
             colorChange(g);
+            gameText(g);
             
-
         } else {
         	
            gameOver(g);
+        }
+    }
+    
+    private void gameText(Graphics g) {
+    	String game = "Game Creating Sequence";
+    	String user = "Your Turn";
+        Font small = new Font("Helvetica", Font.BOLD, 24);
+        
+        g.setColor(Color.black);
+        g.setFont(small);
+        if (creatingSequence) {
+        	g.drawString(game, 100, 100);
+        }else {
+        	g.drawString(user, 100, 100);
         }
     }
 
