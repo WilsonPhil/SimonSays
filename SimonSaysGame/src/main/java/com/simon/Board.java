@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class Board extends JPanel implements ActionListener {
@@ -57,8 +56,15 @@ public class Board extends JPanel implements ActionListener {
     private boolean rightDirection = false;
     private boolean upDirection = false;
     private boolean downDirection = false;
+    
     private boolean inGame = true;
-
+    private boolean creatingSequence = true;
+    
+    private int seconds; 
+    private int sequenceIndex;
+    private int countDown;
+    int rand;
+    
     private Timer timer;
     private Image purple;
     private Image blue;
@@ -71,11 +77,11 @@ public class Board extends JPanel implements ActionListener {
     private Image lightGreen;
     private Image instruct;
     
-    private boolean runOnce = true;
     
+    // 0 = green, 1 = red, 2 = purple, 3 = blue
     ArrayList<Integer> gameList = new ArrayList<Integer> ();
     ArrayList<Integer> playerList = new ArrayList<Integer> ();
-    int[] arr = {1,2,3,0,0,1,2};
+    
 
     public Board() {
 
@@ -84,13 +90,15 @@ public class Board extends JPanel implements ActionListener {
 
     private void initBoard() {
 
-        addKeyListener(new TAdapter());
+        addKeyListener(new KeyStrokes());
         setBackground(Color.white);
         setFocusable(true);
 
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
         loadImages();
-        startSequence(gameList);
+        //startSequence(gameList);
+        
+        
         initGame();
     }
 
@@ -127,6 +135,9 @@ public class Board extends JPanel implements ActionListener {
     private void initGame() {
 
         initColor();
+        seconds = 0;
+        sequenceIndex = 0;
+        countDown = 2;
 
         timer = new Timer(DELAY, this);
         timer.start();
@@ -172,16 +183,6 @@ public class Board extends JPanel implements ActionListener {
 	    }
     }
     
-    private void playSequence(ArrayList<Integer> list) {
-    	// 0 = green, 1 = red, 2 = purple, 3 = blue
-    	//int[] arr = {1,2,3,0,0,1,2};
-    	for (int i : list) {
-    		 autoChange(i);
-    		 
-    	}
-    }
-
-
 
     @Override
     public void paintComponent(Graphics g) {
@@ -196,8 +197,6 @@ public class Board extends JPanel implements ActionListener {
             origColor(g);
             colorChange(g);
             
-
-//            Toolkit.getDefaultToolkit().sync();
 
         } else {
         	
@@ -267,24 +266,48 @@ public class Board extends JPanel implements ActionListener {
 
     }
     
-    private void checkLists(ArrayList<Integer> gList, ArrayList<Integer> pList) {
-    	if (!pList.isEmpty()) {
-    		int count = 0;
+    private void checkLists(ArrayList<Integer> gList, int index) {
+    	// 0 = green, 1 = red, 2 = purple, 3 = blue
+    	//	  left,		right,	   down,	  up
+    	//pass in index as sequenceIndex
+    	int listIndex = gList.get(index);
+
+    	switch (listIndex) {
+		case 0:
+			if (leftDirection) {
+				sequenceIndex++;
+			} else {
+				inGame = false;
+			}
+			break;
+		case 1:
+			if (rightDirection) {
+				sequenceIndex++;
+			} else {
+				inGame = false;
+			}
+			break;
+		case 2:
+			if (downDirection) {
+				sequenceIndex++;
+			} else {
+				inGame = false;
+			}
+			break;
+		case 3:
+			if (upDirection) {
+				sequenceIndex++;
+			} else {
+				inGame = false;
+			}
+			break;
+		default:
+			inGame = false;
+			System.out.println("Game over");
+			break;
+		}
+    	if (gList.get(sequenceIndex) == 0) {
     		
-//    		while (gList.size() > pList.size()) {
-//    			
-//    		
-//	    		if (gList.get(count) != pList.get(count)) {
-//		    		inGame = false;
-//	    		
-//	    			count++;
-//	    		}
-//    		}
-//	    	for (int i = 0; i < gList.size(); i++) {
-//	    		if (gList.get(i) != pList.get(i)) {
-//	    			inGame = false;
-//	    		}
-//	    	}
     	}
     }
 
@@ -305,10 +328,40 @@ public class Board extends JPanel implements ActionListener {
 
         if (inGame) {
         	
-        	if (runOnce) {
-        		playSequence(gameList);
-        		runOnce = false;
+        	seconds++;
+        	if (seconds % 5 == 0) {
+        		leftDirection = false;
+                upDirection = false;
+                downDirection = false;
+                rightDirection = false;
+                
+                if (countDown >= 0) {
+                	countDown --;
+                }
         	}
+        	
+        	if (creatingSequence) {
+        		if (countDown <= 0) { //slow down the blinking
+        			if(sequenceIndex >= gameList.size()) {
+		        		rand = (int)(Math.random() * 4);
+		        		
+		        		autoChange(rand);
+		        		gameList.add(rand);
+		        		sequenceIndex = 0;
+		        		creatingSequence = false;
+        			} else {
+        				autoChange(gameList.get(sequenceIndex));
+        				sequenceIndex++;
+        			}
+	        		countDown = 1;
+	        		
+        		}
+        	} else if (sequenceIndex == gameList.size()){
+        		creatingSequence = true;
+        		sequenceIndex = 0;
+        		countDown = 1;
+        	}
+        	
         	//checkLists(gameList,playerList);
 
         }
@@ -316,44 +369,53 @@ public class Board extends JPanel implements ActionListener {
         repaint();
     }
 
-    private class TAdapter extends KeyAdapter {
+    private class KeyStrokes extends KeyAdapter {
 
         @Override
         public void keyPressed(KeyEvent e) {
 
             int key = e.getKeyCode();
-
-            if (key == KeyEvent.VK_LEFT) {
-                leftDirection = true;
-                upDirection = false;
-                downDirection = false;
-                rightDirection = false;
-                playerList.add(0);
-            }
-
-            if (key == KeyEvent.VK_RIGHT)  {
-                rightDirection = true;
-                upDirection = false;
-                downDirection = false;
-                leftDirection = false;
-                playerList.add(1);
-            }
-
-            if (key == KeyEvent.VK_UP) {
-                upDirection = true;
-                rightDirection = false;
-                leftDirection = false;
-                downDirection = false;
-                playerList.add(3);
-            }
-
-            if (key == KeyEvent.VK_DOWN)  {
-                downDirection = true;
-                rightDirection = false;
-                leftDirection = false;
-                upDirection = false;
-                playerList.add(2);
-            }
+            
+            if (!creatingSequence) {
+	            if (key == KeyEvent.VK_LEFT) {
+	                leftDirection = true;
+	                upDirection = false;
+	                downDirection = false;
+	                rightDirection = false;
+	                //playerList.add(0);
+	                seconds = 1;
+	            }
+	
+	            if (key == KeyEvent.VK_RIGHT)  {
+	                rightDirection = true;
+	                upDirection = false;
+	                downDirection = false;
+	                leftDirection = false;
+	                //playerList.add(1);
+	                seconds = 1;
+	            }
+	
+	            if (key == KeyEvent.VK_UP) {
+	                upDirection = true;
+	                rightDirection = false;
+	                leftDirection = false;
+	                downDirection = false;
+	                //playerList.add(3);
+	                seconds = 1;
+	            }
+	
+	            if (key == KeyEvent.VK_DOWN)  {
+	                downDirection = true;
+	                rightDirection = false;
+	                leftDirection = false;
+	                upDirection = false;
+	                //playerList.add(2);
+	                seconds = 1;
+	            }
+	            
+	            checkLists(gameList, sequenceIndex);
+	            
+            }   
         }
     }
 }
